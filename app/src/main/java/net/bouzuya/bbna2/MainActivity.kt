@@ -1,5 +1,6 @@
 package net.bouzuya.bbna2
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -12,7 +13,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -33,28 +34,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import net.bouzuya.bbna2.ui.components.MyApp
 import net.bouzuya.bbna2.ui.theme.Bbna2Theme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        enableEdgeToEdge()
         setContent {
-            Bbna2Theme {
-                Surface(modifier = Modifier.fillMaxSize()) {
-
-                    Conversation(
-                        listOf(
-                            Message("A", "foo"), Message("B", "bar"), Message("A", "baz"), Message(
-                                "B",
-                                "long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long "
-                            )
-                        )
-                    )
-                }
-//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                }
-            }
+            MyApp()
         }
     }
 }
@@ -77,10 +64,8 @@ fun MessageCard(msg: Message) {
 
         var isExpanded by remember { mutableStateOf(false) }
         val surfaceColor by animateColorAsState(
-            if (isExpanded)
-                MaterialTheme.colorScheme.primary
-            else
-                MaterialTheme.colorScheme.surface
+            if (isExpanded) MaterialTheme.colorScheme.primary
+            else MaterialTheme.colorScheme.surface
         )
 
         Column(modifier = Modifier.clickable { isExpanded = !isExpanded }) {
