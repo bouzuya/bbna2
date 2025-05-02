@@ -10,9 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.outlined.Menu
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -29,7 +27,7 @@ import java.time.LocalDate
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListScreen(
-    onNavigateToDetail: () -> Unit
+    onNavigateToDetail: (entryId: String) -> Unit
 ) {
     val entries = (0..100).map {
         Entry(
@@ -84,11 +82,11 @@ fun ListScreenPreview() {
 data class Entry(val date: String, val title: String)
 
 @Composable
-fun EntryListItem(entry: Entry, onNavigateToDetail: () -> Unit) {
+fun EntryListItem(entry: Entry, onNavigateToDetail: (entryId: String) -> Unit) {
     Column(
         verticalArrangement = androidx.compose.foundation.layout.Arrangement.Center,
         modifier = Modifier
-            .clickable { onNavigateToDetail() }
+            .clickable { onNavigateToDetail(entry.date) }
             .fillMaxWidth()
             .height((72 - 8 * 2).dp)
             .padding(horizontal = 16.dp, vertical = 8.dp)

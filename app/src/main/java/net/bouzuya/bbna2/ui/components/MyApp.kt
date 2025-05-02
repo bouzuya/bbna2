@@ -5,23 +5,31 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+
+@kotlinx.serialization.Serializable
+data class DetailRoute(val entryId: String)
+
+@kotlinx.serialization.Serializable
+object ListRoute
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyApp() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "list") {
-        composable("detail") {
+    NavHost(navController = navController, startDestination = ListRoute) {
+        composable<DetailRoute> {
+            val route = it.toRoute<DetailRoute>()
             DetailScreen(
-                entryId = "2025-02-02",
+                entryId = route.entryId,
                 onNavigateToList = {
-                    navController.navigate("list")
+                    navController.navigate(ListRoute)
                 }
             )
         }
-        composable("list") {
+        composable<ListRoute> {
             ListScreen(onNavigateToDetail = {
-                navController.navigate("detail")
+                navController.navigate(DetailRoute(entryId = it))
             })
         }
     }
