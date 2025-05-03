@@ -79,8 +79,6 @@ fun ListScreenPreview() {
     ListScreen { }
 }
 
-data class Entry(val date: String, val title: String)
-
 @Composable
 fun EntryListItem(entry: Entry, onNavigateToDetail: (entryId: String) -> Unit) {
     Column(
