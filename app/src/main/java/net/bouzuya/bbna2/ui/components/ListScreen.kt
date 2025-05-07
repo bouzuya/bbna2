@@ -22,19 +22,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import net.bouzuya.bbna2.data.Entry
 import java.time.LocalDate
+
+class ListViewModel : ViewModel() {
+    fun entries(): List<Entry> {
+        return (0..100).map {
+            Entry(
+                date = LocalDate.of(2020, 1, 2).plusDays(it.toLong()).toString(),
+                title = "Title $it"
+            )
+        }.toList()
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListScreen(
     onNavigateToDetail: (entryId: String) -> Unit
 ) {
-    val entries = (0..100).map {
-        Entry(
-            date = LocalDate.of(2020, 1, 2).plusDays(it.toLong()).toString(),
-            title = "Title $it"
-        )
-    }.toList()
+    val viewModel = viewModel<ListViewModel>()
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -63,7 +72,7 @@ fun ListScreen(
                 )
             }
 
-            items(entries) {
+            items(viewModel.entries()) {
                 EntryListItem(
                     entry = it,
                     onNavigateToDetail = onNavigateToDetail
